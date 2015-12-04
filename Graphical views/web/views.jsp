@@ -1,17 +1,36 @@
 <%--
-    Copyright (C) 2014 Infinite Automation Systems Inc. All rights reserved.
+    Copyright (C) 2015 Infinite Automation Systems Inc. All rights reserved.
     @author Matthew Lohbihler
+    @author Terry Packer
 --%>
 <%@ include file="/WEB-INF/jsp/include/tech.jsp" %>
 <%@ taglib prefix="views" tagdir="/WEB-INF/tags/graphicalViews" %>
 
-<tag:page dwr="GraphicalViewDwr" js="/resources/view.js,${modulePath}/web/graphicalViews.js,${modulePath}/web/wz_jsgraphics.js">
-  <script type="text/javascript">
+<tag:html5 showHeader="${param.showHeader}" showToolbar="${param.showToolbar}">
+
+  <jsp:attribute name="scripts">
+   <!-- <tag:versionedJavascript  src="/resources/common.js" />  -->
+   <tag:versionedJavascript  src="/dwr/engine.js" />
+   <tag:versionedJavascript  src="/dwr/util.js" />
+   <tag:versionedJavascript  src="/dwr/interface/MiscDwr.js" />
+   <tag:versionedJavascript  src="/dwr/interface/GraphicalViewDwr.js" />
+   <tag:versionedJavascript  src="${modulePath}/web/js/common.js" />
+   <tag:versionedJavascript  src="${modulePath}/web/js/view.js" />
+   <tag:versionedJavascript  src="${modulePath}/web/js/graphicalViews.js" />
+   <tag:versionedJavascript  src="${modulePath}/web/wz_jsgraphics.js" />
+   <script type="text/javascript">
     <c:if test="${!empty currentView}">
-      mango.view.initNormalView();
+    require(['jquery'], function($){
+    	$(document).ready(function(){
+    	      mango.view.initNormalView();
+    	      mango.longPoll.start();    		
+    	});
+    });
     </c:if>
-  </script>
+   </script>
   
+  </jsp:attribute>
+  <jsp:body>
   <c:if test="${empty param.showControls || param.showControls == true}">
   <table class="borderDiv">
     <tr>
@@ -44,4 +63,5 @@
       </td>
     </tr>
   </table>
-</tag:page>
+  </jsp:body>
+</tag:html5>

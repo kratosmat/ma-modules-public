@@ -54,6 +54,7 @@ abstract public class ViewComponent implements Serializable, JsonSerializable {
             d.add(SimpleCompoundComponent.DEFINITION);
             d.add(ImageChartComponent.DEFINITION);
             d.add(WirelessTempHumSensor.DEFINITION);
+            d.add(PointWebSocket.DEFINITION);
             DEFINITIONS = d;
         }
 

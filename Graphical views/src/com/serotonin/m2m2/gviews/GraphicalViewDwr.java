@@ -361,7 +361,7 @@ public class GraphicalViewDwr extends ModuleDwr {
         HtmlComponent c = (HtmlComponent) getViewComponent(viewComponentId);
         c.setContent(content);
     }
-
+    
     @DwrPermission(user = true)
     public ProcessResult saveAnalogGraphicComponent(String viewComponentId, double min, double max,
             boolean displayText, String imageSetId) {
