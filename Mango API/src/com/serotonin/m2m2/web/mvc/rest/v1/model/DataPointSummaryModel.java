@@ -18,15 +18,19 @@ import com.serotonin.m2m2.vo.dataSource.DataSourceVO;
 public class DataPointSummaryModel extends AbstractRestModel<DataPointSummary>{
 
 	public DataPointSummaryModel(){
-		super(new DataPointSummary());
-		
+		this(new DataPointSummary(), null);
 	}
+	
+	//For performance
+	private String dataSourceXid;
 	
 	/**
 	 * @param data
+	 * @param dataSourceXid - for performance
 	 */
-	public DataPointSummaryModel(DataPointSummary data) {
+	public DataPointSummaryModel(DataPointSummary data, String dataSourceXid) {
 		super(data);
+		this.dataSourceXid = dataSourceXid;
 	}
 
 	@JsonGetter("xid")
@@ -49,6 +53,8 @@ public class DataPointSummaryModel extends AbstractRestModel<DataPointSummary>{
 	
 	@JsonGetter("dataSourceXid")
 	public String getDataSourceXid(){
+		if(this.dataSourceXid != null)
+			return this.dataSourceXid;
 		DataSourceVO<?> ds = DaoRegistry.dataSourceDao.getDataSource(this.data.getDataSourceId());
 		if(ds != null){
 			return ds.getXid();
