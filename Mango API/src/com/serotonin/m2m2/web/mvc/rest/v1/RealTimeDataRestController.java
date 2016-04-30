@@ -48,11 +48,10 @@ public class RealTimeDataRestController extends MangoRestController{
 
 	private static Log LOG = LogFactory.getLog(RealTimeDataRestController.class);
 	
-	
+
 	/**
 	 * Query the User's Real Time Data
 	 * @param request
-	 * @param limit
 	 * @return
 	 */
 	@ApiOperation(value = "Query realtime values", 
@@ -67,8 +66,9 @@ public class RealTimeDataRestController extends MangoRestController{
 			try{
 				model = this.parseRQLtoAST(request);
 		    	List<RealTimeDataPointValue> values = RealTimeDataPointValueCache.instance.getUserView(user.getPermissions());
-		    	values = model.accept(new RQLToObjectListQuery<RealTimeDataPointValue>(), values);
-		    	List<RealTimeModel> models = new ArrayList<RealTimeModel>();
+		    	if(model!=null) values = model.accept(new RQLToObjectListQuery<RealTimeDataPointValue>(), values);
+
+				List<RealTimeModel> models = new ArrayList<RealTimeModel>();
 		    	for(RealTimeDataPointValue value : values){
 		    		models.add(new RealTimeModel(value));
 		    	}
