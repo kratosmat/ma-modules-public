@@ -346,7 +346,25 @@ public class DataPointRestController extends MangoVoRestController<DataPointVO, 
     	        boolean updated = true;
     	        if (existingDp == null) {
     	    		updated = false;
-    	        }else{
+					if(vo.getId()==-1) {
+						String deviceName;
+						if(vo != null) {
+							deviceName = vo.getDeviceName();
+						} else {
+							deviceName = ds.getName();
+						}
+
+						vo.setXid(DataPointDao.instance.generateUniqueXid());
+						vo.setDeviceName(deviceName);
+						vo.setId(-1);
+						vo.setDataSourceId(ds.getId());
+						vo.setDataSourceTypeName(ds.getDefinition().getDataSourceTypeName());
+						//vo.setPointLocator(ds.createPointLocator());
+						vo.setEventDetectors(new ArrayList(0));
+						vo.defaultTextRenderer();
+					}
+				}
+				else{
     	        	vo.setId(existingDp.getId());  //Must Do this as ID is NOT in the model
             		//Set all properties that are not in the template or the spreadsheet
             		//TODO probably move these into one or the other
